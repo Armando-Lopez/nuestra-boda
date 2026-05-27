@@ -92,6 +92,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  /* ---------- Lightbox de la galería ---------- */
+  const galleryLinks = Array.from(document.querySelectorAll('.gallery-item[data-lightbox]'));
+
+  if (galleryLinks.length) {
+    // Crear el lightbox una sola vez
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = `
+      <button class="lightbox-close" aria-label="Cerrar">✕</button>
+      <button class="lightbox-prev" aria-label="Anterior">‹</button>
+      <button class="lightbox-next" aria-label="Siguiente">›</button>
+      <img alt="">
+      <div class="lightbox-counter"></div>
+    `;
+    document.body.appendChild(lb);
+
+    const lbImg = lb.querySelector('img');
+    const lbCounter = lb.querySelector('.lightbox-counter');
+    const lbClose = lb.querySelector('.lightbox-close');
+    const lbPrev = lb.querySelector('.lightbox-prev');
+    const lbNext = lb.querySelector('.lightbox-next');
+
+    let currentIndex = 0;
+
+    const showAt = (i) => {
+      currentIndex = (i + galleryLinks.length) % galleryLinks.length;
+      const href = galleryLinks[currentIndex].getAttribute('href');
+      lbImg.src = href;
+      lbCounter.textContent = `${currentIndex + 1} / ${galleryLinks.length}`;
+    };
+
+    const open = (i) => {
+      showAt(i);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const close = () => {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { lbImg.src = ''; }, 300);
+    };
+
+    galleryLinks.forEach((a, i) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        open(i);
+      });
+    });
+
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click', () => showAt(currentIndex - 1));
+    lbNext.addEventListener('click', () => showAt(currentIndex + 1));
+
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
+      if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+    });
+  }
+
   /* ---------- RSVP form ---------- */
   const form = document.getElementById('rsvpForm');
   const successMsg = document.getElementById('formSuccess');
