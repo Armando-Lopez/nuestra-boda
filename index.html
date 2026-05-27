@@ -26,7 +26,29 @@
 
     <!-- Sobre de entrada -->
     <div class="envelope-screen" id="envelopeScreen" aria-hidden="false">
-      <div class="envelope-screen__glow" aria-hidden="true"></div>
+      <svg class="env-deco env-deco--tl" viewBox="0 0 140 140" aria-hidden="true">
+        <g fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.9">
+          <ellipse cx="70" cy="78" rx="22" ry="14" fill="rgba(180,220,200,0.45)" transform="rotate(-25 70 78)"/>
+          <ellipse cx="52" cy="58" rx="18" ry="11" fill="rgba(180,220,200,0.4)" transform="rotate(-55 52 58)"/>
+          <ellipse cx="92" cy="52" rx="20" ry="12" fill="rgba(180,220,200,0.42)" transform="rotate(15 92 52)"/>
+          <ellipse cx="38" cy="88" rx="16" ry="10" fill="rgba(180,220,200,0.38)" transform="rotate(-80 38 88)"/>
+          <circle cx="68" cy="68" r="4" fill="#c9a84c" opacity="0.6"/>
+          <path d="M68 68 Q74 52 88 48" stroke-width="0.6" opacity="0.5"/>
+          <path d="M68 68 Q54 54 44 62" stroke-width="0.6" opacity="0.5"/>
+        </g>
+      </svg>
+      <svg class="env-deco env-deco--br" viewBox="0 0 140 140" aria-hidden="true">
+        <g fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.9">
+          <ellipse cx="62" cy="72" rx="24" ry="14" fill="rgba(180,220,200,0.45)" transform="rotate(30 62 72)"/>
+          <ellipse cx="88" cy="58" rx="18" ry="11" fill="rgba(180,220,200,0.4)" transform="rotate(70 88 58)"/>
+          <ellipse cx="42" cy="54" rx="19" ry="12" fill="rgba(180,220,200,0.42)" transform="rotate(-20 42 54)"/>
+          <ellipse cx="98" cy="92" rx="17" ry="10" fill="rgba(180,220,200,0.38)" transform="rotate(55 98 92)"/>
+          <circle cx="68" cy="66" r="4" fill="#c9a84c" opacity="0.6"/>
+        </g>
+      </svg>
+
+      <p class="env-date" id="envelopeDateTop">30 agosto 2026</p>
+
       <button
         type="button"
         class="envelope"
@@ -34,18 +56,24 @@
         aria-label="Abrir invitación"
       >
         <div class="env">
-          <div class="env__back"></div>
           <div class="env__letter">
             <p class="env__letter-pre">Estás invitado</p>
             <p class="env__letter-names">Kevin <span>&amp;</span> Maira</p>
-            <p class="env__letter-date" id="envelopeDate">30 · Agosto · 2026</p>
+            <p class="env__letter-date" id="envelopeDate">30 de Agosto, 2026</p>
           </div>
-          <div class="env__pocket"></div>
+          <div class="env__body"></div>
+          <div class="env__fold env__fold--left"></div>
+          <div class="env__fold env__fold--right"></div>
           <div class="env__flap"></div>
-          <div class="env__seal" aria-hidden="true">♥</div>
+          <div class="env__seal" aria-hidden="true">KM</div>
+          <svg class="env__arrow" viewBox="0 0 80 60" aria-hidden="true">
+            <path d="M4 52 Q28 44 42 28 Q50 18 54 8" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M54 8 L48 14 M54 8 L60 12" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
         </div>
       </button>
-      <p class="env-hint">Toca el sobre para abrir</p>
+
+      <p class="env-hint">Clic aquí</p>
     </div>
 
     <!-- Navegación -->

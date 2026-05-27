@@ -34,8 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
   envelopeBtn?.addEventListener('click', openEnvelope);
 
   const envelopeDate = document.getElementById('envelopeDate');
+  const envelopeDateTop = document.getElementById('envelopeDateTop');
   if (envelopeDate && cfg?.fechaHistoria) {
     envelopeDate.textContent = cfg.fechaHistoria;
+  }
+  if (envelopeDateTop && cfg?.fecha) {
+    const wedding = parseWeddingDate(cfg.fecha);
+    if (wedding) {
+      const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      envelopeDateTop.textContent =
+        `${wedding.getDate()} ${months[wedding.getMonth()]} ${wedding.getFullYear()}`;
+    }
   }
 
   /** Parsea "2026-08-30T16:00:00" como hora local (evita errores de zona horaria). */
