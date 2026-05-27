@@ -366,6 +366,28 @@ section { padding: 6rem 0; position: relative; }
   color: var(--accent);
   margin-bottom: 1rem;
 }
+.quote-body {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.quote-body p {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-style: italic;
+  color: var(--text-soft);
+  line-height: 1.85;
+  margin-bottom: 1.35rem;
+}
+.quote-body p:last-child {
+  margin-bottom: 0;
+}
+.quote-closing {
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-style: normal;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
 .quote-author {
   font-family: var(--font-sans);
   font-size: 0.85rem;
@@ -944,34 +966,27 @@ section { padding: 6rem 0; position: relative; }
   .hcd-label { font-size: 0.55rem; letter-spacing: 1.5px; }
   .hcd-sep { font-size: 1.4rem; }
 
+  .hero-media img {
+    object-position: center 32%;
+  }
+  .hero-content {
+    margin-bottom: 3rem;
+    padding-bottom: 3.5rem;
+  }
+
   .swatch { width: 55px; height: 55px; }
   .dc-colors { gap: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .hero-content { padding: 1.5rem 1rem 4.5rem; }
-  .hero-names { font-size: clamp(2.6rem, 14vw, 4rem); }
+  .hero-media img {
+    object-position: center 28%;
+  }
+  .hero-content {
+    margin-bottom: 4.5rem;
+    padding: 1.5rem 1rem 3rem;
+  }
+  .hero-names { font-size: clamp(2.6rem, 14vw, 4rem); margin-bottom: 4rem; }
   .hero-date { font-size: 1rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
-  .hero-pre { letter-spacing: 5px; margin-bottom: 1rem; }
-}
-
-/* Reproductor YouTube oculto (solo audio de fondo) */
-.youtube-player {
-  position: fixed;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-  padding: 0;
-  margin: -1px;
-  z-index: -1;
-}
-
-.youtube-player iframe {
-  width: 560px;
-  height: 315px;
-  border: 0;
+  .hero-pre { letter-spacing: 5px; margin-bottom: 1rem; color: #fff; }
 }
