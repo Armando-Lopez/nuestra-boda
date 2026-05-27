@@ -132,33 +132,60 @@ a:hover { color: var(--accent-soft); }
 .hero {
   position: relative;
   min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   text-align: center;
   background-color: #042620;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   overflow: hidden;
 }
+
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #042620;
+}
+
+.hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
 .hero::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    linear-gradient(180deg, rgba(4,38,32,0.55) 0%, rgba(4,38,32,0.85) 100%),
-    radial-gradient(circle at 20% 30%, rgba(212,184,118,0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(20,133,106,0.25) 0%, transparent 50%);
+    linear-gradient(180deg, rgba(4, 38, 32, 0.15) 0%, transparent 35%),
+    linear-gradient(0deg, rgba(4, 38, 32, 0.92) 0%, rgba(4, 38, 32, 0.55) 45%, transparent 72%);
   pointer-events: none;
 }
+
 .hero-overlay {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    repeating-linear-gradient(45deg, transparent 0 20px, rgba(201,169,97,0.015) 20px 21px);
+    repeating-linear-gradient(45deg, transparent 0 20px, rgba(212, 184, 118, 0.012) 20px 21px);
   pointer-events: none;
 }
+
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 2rem;
+  width: 100%;
+  max-width: 720px;
+  padding: 2rem 1.5rem 5.5rem;
   animation: fadeUp 1.2s ease;
 }
 .hero-pre {
@@ -171,12 +198,12 @@ a:hover { color: var(--accent-soft); }
 }
 .hero-names {
   font-family: var(--font-script);
-  font-size: clamp(4rem, 14vw, 10rem);
+  font-size: clamp(3rem, 11vw, 7.5rem);
   font-weight: 400;
   line-height: 1;
   color: var(--text);
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 40px rgba(201,169,97,0.2);
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 24px rgba(4, 38, 32, 0.9);
 }
 .hero-names .amp {
   color: var(--red-soft);
@@ -245,9 +272,13 @@ a:hover { color: var(--accent-soft); }
 }
 
 .scroll-indicator {
-  position: absolute; bottom: 30px; left: 50%;
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
   transform: translateX(-50%);
-  width: 24px; height: 40px;
+  z-index: 3;
+  width: 24px;
+  height: 40px;
   border: 1px solid var(--accent);
   border-radius: 12px;
 }
@@ -918,6 +949,8 @@ section { padding: 6rem 0; position: relative; }
 }
 
 @media (max-width: 480px) {
-  .hero-date { font-size: 1rem; letter-spacing: 2px; }
-  .hero-pre { letter-spacing: 5px; }
+  .hero-content { padding: 1.5rem 1rem 4.5rem; }
+  .hero-names { font-size: clamp(2.6rem, 14vw, 4rem); }
+  .hero-date { font-size: 1rem; letter-spacing: 2px; margin-bottom: 1.5rem; }
+  .hero-pre { letter-spacing: 5px; margin-bottom: 1rem; }
 }
