@@ -13,6 +13,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Configurar fechas ---------- */
   const cfg = window.WEDDING_CONFIG;
+
+  /** Parsea "2026-08-30T16:00:00" como hora local (evita errores de zona horaria). */
+  function parseWeddingDate(value) {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
+    if (typeof value !== 'string') return null;
+
+    const match = value.trim().match(
+      /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2}))?)?$/
+    );
+    if (!match) return null;
+
+    const [, year, month, day, hour = '0', minute = '0', second = '0'] = match;
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute),
+      Number(second)
+    );
+  }
+
   if (cfg) {
     const $ = (id) => document.getElementById(id);
     if (cfg.fechaTexto)    $('weddingDateLabel') && ($('weddingDateLabel').textContent = cfg.fechaTexto);
@@ -25,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ---------- Cuenta regresiva ---------- */
-  const targetDate = (cfg && cfg.fecha) ? cfg.fecha.getTime() : new Date(2026, 7, 30, 16, 0, 0).getTime();
+  const weddingDate = parseWeddingDate(cfg?.fecha) ?? parseWeddingDate('2026-08-30T19:00:00');
+  const targetDate = weddingDate.getTime();
 
   const cdEls = {
     days:  [document.getElementById('cd-days'),  document.getElementById('hcd-days')],

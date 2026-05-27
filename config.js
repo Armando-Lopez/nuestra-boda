@@ -8,9 +8,9 @@ const WEDDING_CONFIG = {
     novia: "Maira"
   },
 
-  // Fecha y hora del evento (formato 24h)
-  // Año, Mes (0 = Enero, 11 = Diciembre), Día, Hora, Minuto
-  fecha: new Date(2026, 7, 30, 16, 0, 0), // 30 de Agosto 2026, 4:00 PM
+  // Fecha y hora del evento (hora local de tu PC)
+  // Formato: AAAA-MM-DDTHH:MM:SS  (mes 08 = agosto)
+  fecha: "2026-08-30T19:00:00",
 
   // Texto que se muestra debajo del nombre
   fechaTexto: "Domingo · 30 · Agosto · 2026",
