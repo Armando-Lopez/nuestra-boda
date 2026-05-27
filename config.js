@@ -22,5 +22,9 @@ const WEDDING_CONFIG = {
 
   // Endpoint opcional para enviar RSVP a un servicio externo
   // (Google Forms, Formspree, etc.). Déjalo vacío para solo guardarlo localmente.
-  rsvpEndpoint: ""
+  rsvpEndpoint: "",
+
+  // Música de fondo (ID del video de YouTube). Se reproduce al hacer scroll.
+  // Ejemplo: https://www.youtube.com/watch?v=qyGx4rxoeSg → "qyGx4rxoeSg"
+  musicaVideoId: "qyGx4rxoeSg"
 };

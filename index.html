@@ -17,6 +17,7 @@
     />
 
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
   </head>
   <body>
     <!-- Loader -->
@@ -458,7 +459,20 @@
       </div>
     </footer>
 
-    <script src="config.js?v=20260830-19"></script>
-    <script src="script.js?v=20260830-19"></script>
+    <div class="youtube-player" aria-hidden="true">
+      <iframe
+        id="youtube-player"
+        width="560"
+        height="315"
+        title="Música de fondo"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <script src="config.js?v=20260830-21"></script>
+    <script src="script.js?v=20260830-21"></script>
   </body>
 </html>

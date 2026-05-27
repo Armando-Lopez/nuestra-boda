@@ -95,6 +95,101 @@ document.addEventListener('DOMContentLoaded', () => {
     else nav.classList.remove('scrolled');
   });
 
+  /* ---------- Música de fondo (YouTube, al hacer scroll) ---------- */
+  const videoId = cfg?.musicaVideoId;
+  if (videoId) {
+    const iframe = document.getElementById('youtube-player');
+    if (iframe) {
+      let player = null;
+      let playerReady = false;
+      let musicStarted = false;
+
+      const embedParams = (extra = {}) => {
+        const params = new URLSearchParams({
+          enablejsapi: '1',
+          autoplay: '0',
+          loop: '1',
+          playlist: videoId,
+          controls: '0',
+          modestbranding: '1',
+          rel: '0',
+          playsinline: '1',
+          ...extra
+        });
+        if (window.location.origin && window.location.origin !== 'null') {
+          params.set('origin', window.location.origin);
+        }
+        return params.toString();
+      };
+
+      iframe.src = `https://www.youtube.com/embed/${videoId}?${embedParams()}`;
+
+      const playMusic = () => {
+        if (!musicStarted) return;
+
+        if (playerReady && player?.playVideo) {
+          player.unMute();
+          player.setVolume(100);
+          player.playVideo();
+          return;
+        }
+
+        iframe.src = `https://www.youtube.com/embed/${videoId}?${embedParams({
+          autoplay: '1'
+        })}`;
+      };
+
+      const startMusic = () => {
+        if (musicStarted) return;
+        musicStarted = true;
+        playMusic();
+      };
+
+      const onScrollMusic = () => {
+        if (window.scrollY <= 5 && document.documentElement.scrollTop <= 5) return;
+        startMusic();
+      };
+
+      window.addEventListener('scroll', onScrollMusic, { passive: true });
+      ['wheel', 'touchmove'].forEach((evt) => {
+        window.addEventListener(evt, startMusic, { passive: true, once: true });
+      });
+
+      if (window.scrollY > 5 || document.documentElement.scrollTop > 5) {
+        startMusic();
+      }
+
+      const bindPlayer = () => {
+        if (!window.YT?.Player || player) return;
+
+        player = new YT.Player('youtube-player', {
+          events: {
+            onReady: () => {
+              playerReady = true;
+              playMusic();
+            },
+            onStateChange: (event) => {
+              if (event.data === window.YT.PlayerState.ENDED) {
+                player.seekTo(0);
+                player.playVideo();
+              }
+            }
+          }
+        });
+      };
+
+      if (window.YT?.Player) {
+        bindPlayer();
+      } else {
+        const prevReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          prevReady?.();
+          bindPlayer();
+        };
+      }
+    }
+  }
+
   navToggle?.addEventListener('click', () => {
     navToggle.classList.toggle('active');
     navLinks.classList.toggle('open');
