@@ -18,10 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cfg.fechaTexto)    $('weddingDateLabel') && ($('weddingDateLabel').textContent = cfg.fechaTexto);
     if (cfg.fechaHistoria) $('storyDateLabel')   && ($('storyDateLabel').textContent   = cfg.fechaHistoria);
     if (cfg.fechaCorta)    $('footerDate')       && ($('footerDate').textContent       = cfg.fechaCorta);
+    if (cfg.portada) {
+      const heroImg = document.querySelector('.hero-media img');
+      if (heroImg) heroImg.src = cfg.portada;
+    }
   }
 
   /* ---------- Cuenta regresiva ---------- */
-  const targetDate = (cfg && cfg.fecha) ? cfg.fecha.getTime() : new Date(2026, 10, 14, 16, 0, 0).getTime();
+  const targetDate = (cfg && cfg.fecha) ? cfg.fecha.getTime() : new Date(2026, 7, 30, 16, 0, 0).getTime();
 
   const cdEls = {
     days:  [document.getElementById('cd-days'),  document.getElementById('hcd-days')],

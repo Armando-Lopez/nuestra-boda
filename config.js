@@ -17,6 +17,9 @@ const WEDDING_CONFIG = {
   fechaCorta: "30 · 08 · 2026",
   fechaHistoria: "30 de Agosto, 2026",
 
+  // Imagen de portada (hero)
+  portada: "img/P-4.JPG",
+
   // Endpoint opcional para enviar RSVP a un servicio externo
   // (Google Forms, Formspree, etc.). Déjalo vacío para solo guardarlo localmente.
   rsvpEndpoint: ""
