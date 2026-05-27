@@ -18,10 +18,34 @@
 
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="envelope-locked">
     <!-- Loader -->
     <div class="loader" id="loader">
       <div class="loader-heart">❤</div>
+    </div>
+
+    <!-- Sobre de entrada -->
+    <div class="envelope-screen" id="envelopeScreen" aria-hidden="false">
+      <div class="envelope-screen__glow" aria-hidden="true"></div>
+      <button
+        type="button"
+        class="envelope"
+        id="envelopeBtn"
+        aria-label="Abrir invitación"
+      >
+        <div class="env">
+          <div class="env__back"></div>
+          <div class="env__letter">
+            <p class="env__letter-pre">Estás invitado</p>
+            <p class="env__letter-names">Kevin <span>&amp;</span> Maira</p>
+            <p class="env__letter-date" id="envelopeDate">30 · Agosto · 2026</p>
+          </div>
+          <div class="env__pocket"></div>
+          <div class="env__flap"></div>
+          <div class="env__seal" aria-hidden="true">♥</div>
+        </div>
+      </button>
+      <p class="env-hint">Toca el sobre para abrir</p>
     </div>
 
     <!-- Navegación -->

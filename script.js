@@ -14,6 +14,30 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Configurar fechas ---------- */
   const cfg = window.WEDDING_CONFIG;
 
+  /* ---------- Sobre de entrada ---------- */
+  const envelopeScreen = document.getElementById('envelopeScreen');
+  const envelopeBtn = document.getElementById('envelopeBtn');
+
+  function openEnvelope() {
+    if (!envelopeScreen || envelopeScreen.classList.contains('opening')) return;
+
+    envelopeScreen.classList.add('opening');
+    envelopeBtn?.setAttribute('disabled', 'true');
+
+    setTimeout(() => {
+      envelopeScreen.classList.add('opened');
+      envelopeScreen.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('envelope-locked');
+    }, 2200);
+  }
+
+  envelopeBtn?.addEventListener('click', openEnvelope);
+
+  const envelopeDate = document.getElementById('envelopeDate');
+  if (envelopeDate && cfg?.fechaHistoria) {
+    envelopeDate.textContent = cfg.fechaHistoria;
+  }
+
   /** Parsea "2026-08-30T16:00:00" como hora local (evita errores de zona horaria). */
   function parseWeddingDate(value) {
     if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
