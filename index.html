@@ -25,7 +25,14 @@
     </div>
 
     <!-- Sobre de entrada -->
-    <div class="envelope-screen" id="envelopeScreen" aria-hidden="false">
+    <div
+      class="envelope-screen"
+      id="envelopeScreen"
+      role="button"
+      tabindex="0"
+      aria-label="Abrir invitación"
+      aria-hidden="false"
+    >
       <p class="env-date" id="envelopeDateTop">30 agosto 2026</p>
 
       <div class="env-stage">
@@ -35,12 +42,7 @@
           alt=""
           aria-hidden="true"
         />
-        <button
-          type="button"
-          class="envelope"
-          id="envelopeBtn"
-          aria-label="Abrir invitación"
-        >
+        <div class="envelope" id="envelopeBtn">
           <div class="env">
             <div class="env__letter">
               <p class="env__letter-pre">Estás invitado</p>
@@ -58,24 +60,31 @@
               alt=""
               aria-hidden="true"
             />
-            <svg class="env__arrow" viewBox="0 0 100 72" aria-hidden="true">
+            <svg class="env__arrow" viewBox="0 0 115 82" aria-hidden="true">
               <path
-                d="M 12 58 C 12 52 6 50 9 44 C 12 38 18 40 16 46 C 22 42 34 36 48 28 Q 62 20 72 14"
+                d="M 12 78
+                   C 14 62 10 50 22 40
+                   C 32 32 42 36 38 46
+                   C 34 56 24 50 28 42
+                   C 36 30 54 26 70 30
+                   C 78 27 84 23 96 20"
                 fill="none"
                 stroke="#c9a84c"
-                stroke-width="1.25"
+                stroke-width="2.6"
                 stroke-linecap="round"
+                stroke-linejoin="round"
               />
               <path
-                d="M72 14 L66 18 M72 14 L76 20"
+                d="M 96 17 L 99 20 L 96 23"
                 fill="none"
                 stroke="#c9a84c"
-                stroke-width="1.25"
+                stroke-width="2.6"
                 stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
           </div>
-        </button>
+        </div>
         <img
           class="env-flowers env-flowers--br"
           src="img/flowers.png"

@@ -16,22 +16,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- Sobre de entrada ---------- */
   const envelopeScreen = document.getElementById('envelopeScreen');
-  const envelopeBtn = document.getElementById('envelopeBtn');
 
   function openEnvelope() {
     if (!envelopeScreen || envelopeScreen.classList.contains('opening')) return;
 
     envelopeScreen.classList.add('opening');
-    envelopeBtn?.setAttribute('disabled', 'true');
+    envelopeScreen.setAttribute('aria-busy', 'true');
 
     setTimeout(() => {
       envelopeScreen.classList.add('opened');
       envelopeScreen.setAttribute('aria-hidden', 'true');
+      envelopeScreen.removeAttribute('aria-busy');
       document.body.classList.remove('envelope-locked');
     }, 2200);
   }
 
-  envelopeBtn?.addEventListener('click', openEnvelope);
+  envelopeScreen?.addEventListener('click', openEnvelope);
+  envelopeScreen?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openEnvelope();
+    }
+  });
 
   const envelopeDate = document.getElementById('envelopeDate');
   const envelopeDateTop = document.getElementById('envelopeDateTop');

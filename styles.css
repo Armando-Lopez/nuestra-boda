@@ -89,13 +89,24 @@ a:hover { color: var(--accent-soft); }
   background-image: url('img/envelope-bg.jpeg');
   background-size: cover;
   background-position: center;
+  cursor: pointer;
   transition: opacity 1s ease .5s, visibility 1s ease .5s;
+}
+
+.envelope-screen.opening,
+.envelope-screen.opened {
+  cursor: default;
+  pointer-events: none;
+}
+
+.envelope-screen:focus-visible {
+  outline: 2px solid var(--env-gold);
+  outline-offset: -4px;
 }
 
 .envelope-screen.opened {
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
 }
 
 .env-date {
@@ -147,17 +158,7 @@ a:hover { color: var(--accent-soft); }
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
-}
-
-.envelope:focus-visible {
-  outline: 2px solid var(--env-gold);
-  outline-offset: 10px;
-  border-radius: 4px;
-}
-
-.envelope:disabled {
-  cursor: default;
+  pointer-events: none;
 }
 
 .env {
@@ -252,11 +253,12 @@ a:hover { color: var(--accent-soft); }
   pointer-events: none;
   opacity: 0.9;
   animation: arrowNudge 2.5s ease-in-out infinite;
+  scale: 0.6;
 }
 
 @keyframes arrowNudge {
-  0%, 100% { transform: translate(0, 0); opacity: 0.7; }
-  50%      { transform: translate(4px, -3px); opacity: 1; }
+  0%, 100% { transform: translate(10px, 70px) rotate(-30deg); opacity: 0.7; }
+  50%      { transform: translate(-10px, 80px) rotate(-30deg); opacity: 1; }
 }
 
 .env-hint {
@@ -347,18 +349,18 @@ a:hover { color: var(--accent-soft); }
   }
 
   .env-flowers {
-    width: clamp(168px, 50vw, 210px);
+    width: clamp(150px, 40vw, 200px);
   }
 
   .env-flowers--tl {
-    top: -12%;
-    left: -16%;
+    top: -2%;
+    left: -10%;
   }
 
   .env-flowers--br {
     bottom: -8%;
     right: -14%;
-    width: clamp(175px, 52vw, 220px);
+    width: clamp(170px, 40vw, 200px);
     transform: scaleX(-1) rotate(4deg);
   }
 
