@@ -243,37 +243,72 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('rsvpForm');
   const successMsg = document.getElementById('formSuccess');
 
+  async function sendRsvpToGoogleSheet(payload) {
+    const url = cfg?.rsvpEndpoint?.trim();
+    if (!url) return true;
+
+    const body = JSON.stringify({
+      ...payload,
+      fechaEnvio: new Date().toISOString()
+    });
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body
+    });
+
+    let result = {};
+    try {
+      result = await res.json();
+    } catch (_) {
+      if (!res.ok) throw new Error('Respuesta inválida del servidor');
+    }
+
+    if (!res.ok || result.ok === false) {
+      throw new Error(result.error || 'No se pudo guardar en la hoja');
+    }
+
+    return true;
+  }
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
+    const submitBtn = form.querySelector('[type="submit"]');
 
-    // Validación simple
     if (!data.nombre || !data.asistencia) {
       alert('Por favor completa los campos obligatorios.');
       return;
     }
 
-    // Si hay endpoint configurado, lo enviamos
-    if (cfg && cfg.rsvpEndpoint) {
+    if (cfg?.rsvpEndpoint?.trim()) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando…';
+
       try {
-        await fetch(cfg.rsvpEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+        await sendRsvpToGoogleSheet(data);
       } catch (err) {
-        console.warn('No se pudo enviar al endpoint:', err);
+        console.warn('RSVP Google Sheets:', err);
+        alert(
+          'No se pudo enviar tu confirmación a la hoja. ' +
+          'Revisa la conexión o inténtalo de nuevo en unos minutos.'
+        );
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar confirmación';
+        return;
       }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar confirmación';
     }
 
-    // Guardamos también en localStorage por seguridad
     try {
       const list = JSON.parse(localStorage.getItem('rsvp_list') || '[]');
       list.push({ ...data, fecha: new Date().toISOString() });
       localStorage.setItem('rsvp_list', JSON.stringify(list));
     } catch (_) {}
 
-    // Mostrar mensaje de éxito
     successMsg?.classList.add('show');
     form.reset();
 

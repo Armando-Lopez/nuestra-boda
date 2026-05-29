@@ -23,7 +23,7 @@ window.WEDDING_CONFIG = {
   // Música al abrir el sobre
   musica: "music/nuestro-sueño.mp3",
 
-  // Endpoint opcional para enviar RSVP a un servicio externo
-  // (Google Forms, Formspree, etc.). Déjalo vacío para solo guardarlo localmente.
-  rsvpEndpoint: ""
+  // URL de la aplicación web de Google Apps Script (termina en /exec)
+  // Ver google-apps-script/Code.gs para crear la hoja y obtener la URL.
+  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbw4MVClCg1-ja4_WwjSDn3-cLdHRgWGu7mV_zFA9T4I-Oq3-FcGF8XeSyykAZsYXrrUyw/exec"
 };

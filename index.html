@@ -442,16 +442,10 @@
         </p>
 
         <form class="rsvp-form" id="rsvpForm" novalidate>
-          <div class="form-row">
-            <label>
-              Nombre completo *
-              <input type="text" name="nombre" required />
-            </label>
-            <label>
-              Teléfono
-              <input type="tel" name="telefono" />
-            </label>
-          </div>
+          <label>
+            Nombre completo *
+            <input type="text" name="nombre" required />
+          </label>
 
           <div class="form-row">
             <label>
@@ -481,6 +475,15 @@
               rows="4"
               placeholder="Déjanos un mensaje con tus mejores deseos..."
             ></textarea>
+          </label>
+
+          <label>
+            Nombra una canción para nuestra lista de reproducción
+            <input
+              type="text"
+              name="cancion"
+              placeholder="Ej. Luis Miguel — La de la Mochila Azul"
+            />
           </label>
 
           <button type="submit" class="btn btn-primary">
@@ -513,6 +516,6 @@
     ></audio>
 
     <script src="config.js?v=1"></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
   </body>
 </html>
