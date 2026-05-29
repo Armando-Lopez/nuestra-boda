@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=1" />
   </head>
   <body class="envelope-locked">
     <!-- Loader -->
@@ -447,18 +447,19 @@
             <input type="text" name="nombre" required />
           </label>
 
-          <div class="form-row">
+          <label>
+            ¿Asistirás? *
+            <select name="asistencia" id="rsvpAsistencia" required>
+              <option value="">Selecciona</option>
+              <option value="si">¡Sí, ahí estaré!</option>
+              <option value="no">No podré asistir</option>
+            </select>
+          </label>
+
+          <div class="rsvp-attending-fields hidden" id="rsvpAttendingFields">
             <label>
-              ¿Asistirás? *
-              <select name="asistencia" required>
-                <option value="">Selecciona</option>
-                <option value="si">¡Sí, ahí estaré!</option>
-                <option value="no">No podré asistir</option>
-              </select>
-            </label>
-            <label>
-              ¿Cuántas personas asistirán? (incluyendote)
-              <select name="invitados">
+              ¿Cuántas personas asistirán? (incluyéndote)
+              <select name="invitados" id="rsvpInvitados">
                 <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -525,6 +526,15 @@
         <p class="rsvp-modal__icon" id="rsvpModalIcon" aria-hidden="true">💌</p>
         <h3 class="rsvp-modal__title" id="rsvpModalTitle"></h3>
         <p class="rsvp-modal__text" id="rsvpModalText"></p>
+        <a
+          href="#"
+          class="btn btn-whatsapp rsvp-modal__whatsapp hidden"
+          id="rsvpModalWhatsApp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Enviar por WhatsApp
+        </a>
         <button type="button" class="btn btn-primary rsvp-modal__btn" data-modal-close>
           Entendido
         </button>

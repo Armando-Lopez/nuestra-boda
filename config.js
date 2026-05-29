@@ -25,5 +25,8 @@ window.WEDDING_CONFIG = {
 
   // URL de la aplicación web de Google Apps Script (termina en /exec)
   // Ver google-apps-script/Code.gs para crear la hoja y obtener la URL.
-  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbw4MVClCg1-ja4_WwjSDn3-cLdHRgWGu7mV_zFA9T4I-Oq3-FcGF8XeSyykAZsYXrrUyw/exec"
+  rsvpEndpoint: "https://script.google.com/macros/s/AKfycbw4MVClCg1-ja4_WwjSDn3-cLdHRgWGu7mV_zFA9T4I-Oq3-FcGF8XeSyykAZsYXrrUyw/exec",
+
+  // WhatsApp de respaldo si falla el envío del formulario (solo números, con código de país)
+  whatsappNovia: "573126415314"
 };

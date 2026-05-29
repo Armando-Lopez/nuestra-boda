@@ -245,8 +245,55 @@ document.addEventListener('DOMContentLoaded', () => {
   const rsvpModalIcon = document.getElementById('rsvpModalIcon');
   const rsvpModalTitle = document.getElementById('rsvpModalTitle');
   const rsvpModalText = document.getElementById('rsvpModalText');
+  const rsvpModalWhatsApp = document.getElementById('rsvpModalWhatsApp');
+  const asistenciaSelect = document.getElementById('rsvpAsistencia');
+  const invitadosSelect = document.getElementById('rsvpInvitados');
+  const attendingFields = document.getElementById('rsvpAttendingFields');
 
-  function openRsvpModal({ type = 'success', icon, title, text }) {
+  function toggleAttendingFields() {
+    const asiste = asistenciaSelect?.value === 'si';
+    attendingFields?.classList.toggle('hidden', !asiste);
+
+    if (!asiste && invitadosSelect) {
+      invitadosSelect.value = '1';
+    }
+  }
+
+  asistenciaSelect?.addEventListener('change', toggleAttendingFields);
+  toggleAttendingFields();
+
+  function buildRsvpWhatsAppMessage(payload) {
+    const novia = cfg?.novios?.novia || 'Maira';
+    const asiste = payload.asistencia === 'si';
+    const lines = [
+      `Hola ${novia}, quiero confirmar mi asistencia a la boda:`,
+      '',
+      `Nombre: ${payload.nombre || ''}`,
+      `¿Asistirá?: ${asiste ? 'Sí' : 'No'}`
+    ];
+
+    if (asiste && payload.invitados) {
+      lines.push(`Personas: ${payload.invitados}`);
+    }
+    if (payload.mensaje?.trim()) {
+      lines.push(`Mensaje: ${payload.mensaje.trim()}`);
+    }
+    if (payload.cancion?.trim()) {
+      lines.push(`Canción sugerida: ${payload.cancion.trim()}`);
+    }
+
+    return lines.join('\n');
+  }
+
+  function getRsvpWhatsAppUrl(payload) {
+    const phone = cfg?.whatsappNovia?.replace(/\D/g, '');
+    if (!phone) return '';
+
+    const text = encodeURIComponent(buildRsvpWhatsAppMessage(payload));
+    return `https://wa.me/${phone}?text=${text}`;
+  }
+
+  function openRsvpModal({ type = 'success', icon, title, text, whatsappPayload = null }) {
     if (!rsvpModal) return;
 
     rsvpModal.classList.toggle('rsvp-modal--error', type === 'error');
@@ -254,10 +301,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (rsvpModalTitle) rsvpModalTitle.textContent = title;
     if (rsvpModalText) rsvpModalText.textContent = text;
 
+    if (rsvpModalWhatsApp) {
+      if (whatsappPayload && cfg?.whatsappNovia) {
+        rsvpModalWhatsApp.href = getRsvpWhatsAppUrl(whatsappPayload);
+        rsvpModalWhatsApp.classList.remove('hidden');
+      } else {
+        rsvpModalWhatsApp.href = '#';
+        rsvpModalWhatsApp.classList.add('hidden');
+      }
+    }
+
     rsvpModal.classList.add('open');
     rsvpModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    rsvpModal.querySelector('.rsvp-modal__btn')?.focus();
+    (rsvpModalWhatsApp && !rsvpModalWhatsApp.classList.contains('hidden')
+      ? rsvpModalWhatsApp
+      : rsvpModal.querySelector('.rsvp-modal__btn')
+    )?.focus();
   }
 
   function closeRsvpModal() {
@@ -265,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rsvpModal.classList.remove('open', 'rsvp-modal--error');
     rsvpModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    rsvpModalWhatsApp?.classList.add('hidden');
   }
 
   rsvpModal?.querySelectorAll('[data-modal-close]').forEach((el) => {
@@ -324,6 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     const submitBtn = form.querySelector('[type="submit"]');
+    const asiste = data.asistencia === 'si';
 
     if (!data.nombre || !data.asistencia) {
       openRsvpModal({
@@ -335,12 +397,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    if (!asiste) {
+      data.invitados = '';
+    }
+
+    const payload = { ...data };
+
     if (cfg?.rsvpEndpoint?.trim()) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando…';
 
       try {
-        await sendRsvpToGoogleSheet(data);
+        await sendRsvpToGoogleSheet(payload);
       } catch (err) {
         console.warn('RSVP Google Sheets:', err);
         openRsvpModal({
@@ -349,7 +417,8 @@ document.addEventListener('DOMContentLoaded', () => {
           title: 'No se pudo enviar',
           text:
             'Hubo un problema al guardar tu confirmación. ' +
-            'Revisa tu conexión e inténtalo de nuevo en unos minutos.'
+            'Puedes enviar directamente por WhatsApp a la novia.',
+          whatsappPayload: payload
         });
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar confirmación';
@@ -362,11 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const list = JSON.parse(localStorage.getItem('rsvp_list') || '[]');
-      list.push({ ...data, fecha: new Date().toISOString() });
+      list.push({ ...payload, fecha: new Date().toISOString() });
       localStorage.setItem('rsvp_list', JSON.stringify(list));
     } catch (_) {}
 
     form.reset();
+    toggleAttendingFields();
     showRsvpSuccess(data);
   });
 

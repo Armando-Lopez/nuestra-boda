@@ -8,9 +8,37 @@
  *    - Ejecutar como: Yo
  *    - Quién tiene acceso: Cualquiera
  * 4. Copia la URL que termina en /exec y pégala en config.js → rsvpEndpoint
+ * 5. Colores por asistencia: ejecuta aplicarColoresAsistencia() una vez (▶ Run)
  */
 
 const SHEET_NAME = 'Confirmaciones';
+const DATA_COLS = 7;
+const DATA_ROWS = 500;
+
+/** Ejecuta esta función una vez si la hoja ya tenía datos (▶ en Apps Script). */
+function aplicarColoresAsistencia() {
+  applyAttendanceColors_(getSheet_());
+}
+
+function applyAttendanceColors_(sheet) {
+  const range = sheet.getRange(2, 1, DATA_ROWS, DATA_COLS);
+
+  const ruleSi = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=$C2="si"')
+    .setBackground('#b8e0c8')
+    .setFontColor('#0a4838')
+    .setRanges([range])
+    .build();
+
+  const ruleNo = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=$C2="no"')
+    .setBackground('#e8b0b0')
+    .setFontColor('#5c2020')
+    .setRanges([range])
+    .build();
+
+  sheet.setConditionalFormatRules([ruleSi, ruleNo]);
+}
 
 function getSheet_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -28,8 +56,10 @@ function getSheet_() {
       'Canción',
       'Fecha envío (ISO)'
     ]);
-    sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
+    sheet.getRange(1, 1, 1, DATA_COLS).setFontWeight('bold');
   }
+
+  applyAttendanceColors_(sheet);
   return sheet;
 }
 

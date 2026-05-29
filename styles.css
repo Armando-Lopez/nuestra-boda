@@ -1195,6 +1195,17 @@ section { padding: 6rem 0; position: relative; }
   border-color: var(--accent);
 }
 .rsvp-form textarea { resize: vertical; }
+
+.rsvp-attending-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rsvp-attending-fields.hidden {
+  display: none;
+}
+
 .rsvp-form .btn-primary {
   width: 100%;
   margin-top: 1rem;
@@ -1281,6 +1292,29 @@ section { padding: 6rem 0; position: relative; }
   width: 100%;
   margin-top: 0;
 }
+
+.rsvp-modal__whatsapp {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.rsvp-modal__whatsapp.hidden {
+  display: none;
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  border-color: #25d366;
+  color: #fff;
+}
+
+.btn-whatsapp:hover {
+  background: #20bd5a;
+  border-color: #20bd5a;
+  color: #fff;
+}
+
 .rsvp-modal--error .rsvp-modal__title {
   color: var(--text);
 }
