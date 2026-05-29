@@ -20,6 +20,9 @@ window.WEDDING_CONFIG = {
   // Imagen de portada (hero)
   portada: "img/P-4.JPG",
 
+  // Música al abrir el sobre
+  musica: "music/nuestro-sueño.mp3",
+
   // Endpoint opcional para enviar RSVP a un servicio externo
   // (Google Forms, Formspree, etc.). Déjalo vacío para solo guardarlo localmente.
   rsvpEndpoint: ""
