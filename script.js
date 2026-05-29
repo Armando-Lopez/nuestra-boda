@@ -14,11 +14,67 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Configurar fechas ---------- */
   const cfg = window.WEDDING_CONFIG;
 
+  /* ---------- Música al abrir el sobre (YouTube) ---------- */
+  const musicVideoId = cfg?.musicaYoutube || 'qyGx4rxoeSg';
+  let weddingPlayer = null;
+  let musicPlayPending = false;
+
+  function playWeddingMusic() {
+    if (!musicVideoId) return;
+    musicPlayPending = true;
+    if (weddingPlayer?.playVideo) {
+      weddingPlayer.playVideo();
+      musicPlayPending = false;
+    }
+  }
+
+  function createWeddingPlayer() {
+    if (weddingPlayer || !document.getElementById('weddingMusic')) return;
+
+    weddingPlayer = new YT.Player('weddingMusic', {
+      height: '1',
+      width: '1',
+      videoId: musicVideoId,
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        modestbranding: 1,
+        rel: 0,
+        playsinline: 1,
+        loop: 1,
+        playlist: musicVideoId
+      },
+      events: {
+        onReady: (event) => {
+          event.target.setVolume(70);
+          if (musicPlayPending) {
+            event.target.playVideo();
+            musicPlayPending = false;
+          }
+        }
+      }
+    });
+  }
+
+  window.onYouTubeIframeAPIReady = () => createWeddingPlayer();
+
+  if (!window.YT) {
+    const ytTag = document.createElement('script');
+    ytTag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(ytTag);
+  } else if (window.YT.Player) {
+    createWeddingPlayer();
+  }
+
   /* ---------- Sobre de entrada ---------- */
   const envelopeScreen = document.getElementById('envelopeScreen');
 
   function openEnvelope() {
     if (!envelopeScreen || envelopeScreen.classList.contains('opening')) return;
+
+    playWeddingMusic();
 
     envelopeScreen.classList.add('opening');
     envelopeScreen.setAttribute('aria-busy', 'true');
