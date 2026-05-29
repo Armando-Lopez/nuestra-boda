@@ -241,7 +241,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- RSVP form ---------- */
   const form = document.getElementById('rsvpForm');
-  const successMsg = document.getElementById('formSuccess');
+  const rsvpModal = document.getElementById('rsvpModal');
+  const rsvpModalIcon = document.getElementById('rsvpModalIcon');
+  const rsvpModalTitle = document.getElementById('rsvpModalTitle');
+  const rsvpModalText = document.getElementById('rsvpModalText');
+
+  function openRsvpModal({ type = 'success', icon, title, text }) {
+    if (!rsvpModal) return;
+
+    rsvpModal.classList.toggle('rsvp-modal--error', type === 'error');
+    if (rsvpModalIcon) rsvpModalIcon.textContent = icon;
+    if (rsvpModalTitle) rsvpModalTitle.textContent = title;
+    if (rsvpModalText) rsvpModalText.textContent = text;
+
+    rsvpModal.classList.add('open');
+    rsvpModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    rsvpModal.querySelector('.rsvp-modal__btn')?.focus();
+  }
+
+  function closeRsvpModal() {
+    if (!rsvpModal) return;
+    rsvpModal.classList.remove('open', 'rsvp-modal--error');
+    rsvpModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  rsvpModal?.querySelectorAll('[data-modal-close]').forEach((el) => {
+    el.addEventListener('click', closeRsvpModal);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && rsvpModal?.classList.contains('open')) {
+      closeRsvpModal();
+    }
+  });
+
+  function showRsvpSuccess(data) {
+    const nombre = data.nombre.trim().split(/\s+/)[0];
+    const asiste = data.asistencia === 'si';
+
+    openRsvpModal({
+      type: 'success',
+      icon: asiste ? '💚' : '💌',
+      title: asiste ? '¡Confirmado!' : 'Gracias por avisarnos',
+      text: asiste
+        ? `${nombre}, recibimos tu confirmación. ¡Nos vemos en la boda!`
+        : `${nombre}, lamentamos que no puedas acompañarnos. Gracias por avisarnos.`
+    });
+  }
 
   async function sendRsvpToGoogleSheet(payload) {
     const url = cfg?.rsvpEndpoint?.trim();
@@ -278,7 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = form.querySelector('[type="submit"]');
 
     if (!data.nombre || !data.asistencia) {
-      alert('Por favor completa los campos obligatorios.');
+      openRsvpModal({
+        type: 'error',
+        icon: '✎',
+        title: 'Faltan datos',
+        text: 'Por favor completa tu nombre y confirma si asistirás.'
+      });
       return;
     }
 
@@ -290,10 +343,14 @@ document.addEventListener('DOMContentLoaded', () => {
         await sendRsvpToGoogleSheet(data);
       } catch (err) {
         console.warn('RSVP Google Sheets:', err);
-        alert(
-          'No se pudo enviar tu confirmación a la hoja. ' +
-          'Revisa la conexión o inténtalo de nuevo en unos minutos.'
-        );
+        openRsvpModal({
+          type: 'error',
+          icon: '⚠',
+          title: 'No se pudo enviar',
+          text:
+            'Hubo un problema al guardar tu confirmación. ' +
+            'Revisa tu conexión e inténtalo de nuevo en unos minutos.'
+        });
         submitBtn.disabled = false;
         submitBtn.textContent = 'Enviar confirmación';
         return;
@@ -309,12 +366,8 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('rsvp_list', JSON.stringify(list));
     } catch (_) {}
 
-    successMsg?.classList.add('show');
     form.reset();
-
-    setTimeout(() => {
-      successMsg?.classList.remove('show');
-    }, 6000);
+    showRsvpSuccess(data);
   });
 
 });

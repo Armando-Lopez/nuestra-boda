@@ -457,14 +457,15 @@
               </select>
             </label>
             <label>
-              Número de invitados
-              <input
-                type="number"
-                name="invitados"
-                min="1"
-                max="10"
-                value="1"
-              />
+              ¿Cuántas personas asistirán? (incluyendote)
+              <select name="invitados">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
             </label>
           </div>
 
@@ -489,9 +490,6 @@
           <button type="submit" class="btn btn-primary">
             Enviar confirmación
           </button>
-          <p class="form-success" id="formSuccess">
-            ¡Gracias! Tu confirmación ha sido recibida 💌
-          </p>
         </form>
       </div>
     </section>
@@ -506,6 +504,33 @@
       </div>
     </footer>
 
+    <div
+      class="rsvp-modal"
+      id="rsvpModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rsvpModalTitle"
+      aria-hidden="true"
+    >
+      <div class="rsvp-modal__backdrop" data-modal-close></div>
+      <div class="rsvp-modal__panel">
+        <button
+          type="button"
+          class="rsvp-modal__close"
+          aria-label="Cerrar"
+          data-modal-close
+        >
+          ✕
+        </button>
+        <p class="rsvp-modal__icon" id="rsvpModalIcon" aria-hidden="true">💌</p>
+        <h3 class="rsvp-modal__title" id="rsvpModalTitle"></h3>
+        <p class="rsvp-modal__text" id="rsvpModalText"></p>
+        <button type="button" class="btn btn-primary rsvp-modal__btn" data-modal-close>
+          Entendido
+        </button>
+      </div>
+    </div>
+
     <audio
       id="weddingMusic"
       class="wedding-music"
@@ -516,6 +541,6 @@
     ></audio>
 
     <script src="config.js?v=1"></script>
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
   </body>
 </html>
